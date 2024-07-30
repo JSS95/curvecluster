@@ -1,3 +1,3 @@
 # CurveCluster
 
-Curve clustering, implemented using Numba.
+A Numpy-friendly curve clustering package.

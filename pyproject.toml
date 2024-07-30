@@ -8,7 +8,7 @@ version = "0.0.0"
 authors = [
     {name = "Jisoo Song", email = "jeesoo9595@snu.ac.kr"}
 ]
-description = "Curve clustering functions"
+description = "Curve clustering package"
 readme = "README.md"
 requires-python = ">=3.9"
 license = {file = "LICENSE"}
@@ -29,5 +29,55 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
-  "numba",
+  "curvesimilarities",
 ]
+
+[project.urls]
+homepage = "https://github.com/JSS95/curvecluster"
+source = "https://github.com/JSS95/curvecluster"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+doc = [
+    "sphinx",
+    "numpydoc",
+    "pydata_sphinx_theme",
+    "matplotlib",
+]
+dev = [
+    "flake8",
+    "flake8-docstrings",
+    "black",
+    "isort",
+    "docformatter",
+    "doc8",
+    "curveculster[test,doc]",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.isort]
+profile = "black"
+
+[tool.docformatter]
+recursive = true
+in-place = true
+black = true
+
+[tool.doc8]
+ignore = ["D004"]
+ignore-path = [
+    "src/*.egg-info",
+    "doc/build",
+]
+
+[tool.pytest.ini_options]
+doctest_optionflags = [
+    "NORMALIZE_WHITESPACE",
+    "IGNORE_EXCEPTION_DETAIL",
+    "ELLIPSIS",
+]
+addopts = "--ignore=doc --doctest-modules --import-mode=importlib"
