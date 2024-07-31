@@ -52,6 +52,14 @@ def simplify_polyline(P, ell):
     .. [#2] Brankovic, M., et al. "(k, l)-Medians Clustering of Trajectories Using
        Continuous Dynamic Time Warping." Proceedings of the 28th International
        Conference on Advances in Geographic Information Systems. 2020.
+
+    Examples
+    --------
+    >>> t = np.linspace(0, np.pi, 500)
+    >>> P = np.stack([t, np.sin(t) + np.random.normal(0, 0.05, len(t))]).T
+    >>> P_simp, _ = simplify_polyline(P, 10)
+    >>> import matplotlib.pyplot as plt  # doctest: +SKIP
+    >>> plt.plot(*P.T); plt.plot(*P_simp.T)  # doctest: +SKIP
     """
     if ell < 2:
         raise ValueError("Cannot simplify to complexity < 2.")
