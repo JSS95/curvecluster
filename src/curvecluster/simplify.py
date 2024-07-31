@@ -1,4 +1,4 @@
-"""Polyline simplification."""
+"""Polyline simplification to acquire the initial center."""
 
 import numpy as np
 from curvesimilarities.frechet import decision_problem, fd
@@ -12,12 +12,52 @@ EPSILON = np.finfo(np.float64).eps
 
 
 def simplify_polyline(P, ell):
-    """Vertex-restricted simplification of a polygonal curve."""
+    r"""Vertex-restricted simplification of a polygonal curve.
+
+    Let :math:`P` be a polygonal curve with vertices :math:`\{p_0, p_1, ..., p_n\}`.
+    The vertex-restricted simplification of :math:`P` with complexity :math:`\ell \le n`
+    is a polygonal curve with vertices :math:`\{p_{i_1}, p_{i_2}, ..., p_{i_\ell}\}`
+    where :math:`1 = i_1 < \ldots < i_\ell = n`.
+
+    Parameters
+    ----------
+    P : ndarray
+        Polyline to be simplified, as an :math:`n` by :math:`d` array of :math:`n`
+        vertices in a :math:`d`-dimensional space.
+    ell : int
+        Complexity :math:`\ell` of the simplified cuve.
+
+    Returns
+    -------
+    ndarray
+        Simplified polyline, as an :math:`\ell` by :math:`d` array of :math:`\ell`
+        vertices in a :math:`d`-dimensional space.
+
+    Raises
+    ------
+    RuntimeError
+        :math:`P` cannot be simplified to exactly :math:`\ell` vertices.
+        This is usually due to multiple vertices having same simplification costs.
+
+    Notes
+    -----
+    This function implements Agarwal et al.'s algorithm [#1]_ as described by Brankovic
+    et al. [#2]_.
+
+    References
+    ----------
+    .. [#1] Agarwal, P. K., Har-Peled, S., et al. (2005). Near-linear time approximation
+       algorithms for curve simplification. Algorithmica, 42, 203-219.
+    .. [#2] Brankovic, M., et al. "(k, l)-Medians Clustering of Trajectories Using
+       Continuous Dynamic Time Warping." Proceedings of the 28th International
+       Conference on Advances in Geographic Information Systems. 2020.
+    """
     if ell < 2:
         raise ValueError("Cannot simplify to complexity < 2.")
     if ell >= len(P):
         return P, 0.0
 
+    # Initial threshold value
     thres_low = 0
     thres_high = fd(P, P[[0, -1]])
     simp = P[FS(P, thres_high)]
