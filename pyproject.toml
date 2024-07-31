@@ -53,7 +53,7 @@ dev = [
     "isort",
     "docformatter",
     "doc8",
-    "curveculster[test,doc]",
+    "curvecluster[test,doc]",
 ]
 
 [tool.setuptools.packages.find]
