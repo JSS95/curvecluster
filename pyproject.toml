@@ -29,7 +29,7 @@ classifiers = [
 ]
 dependencies = [
   "numpy",
-  "curvesimilarities",
+  "numba",
 ]
 
 [project.urls]
