@@ -20,7 +20,7 @@ def simplify_polyline(P, ell):
 
     thres_low = 0
     thres_high = fd(P, P[[0, -1]])
-    simp = _FS(P, thres_high)
+    simp = P[FS(P, thres_high)]
     _ell = len(simp)
     thres = thres_high
 
@@ -28,7 +28,7 @@ def simplify_polyline(P, ell):
     while _ell > ell:
         thres_low = thres_high
         thres_high = thres_high * 2
-        simp = _FS(P, thres_high)
+        simp = P[FS(P, thres_high)]
         _ell = len(simp)
         thres = thres_high
 
@@ -36,7 +36,7 @@ def simplify_polyline(P, ell):
         thres = (thres_low + thres_high) / 2
         if (thres - thres_low < EPSILON) | (thres_high - thres < EPSILON):
             raise RuntimeError("Cannot simplify to complexity %i." % ell)
-        simp = _FS(P, thres)
+        simp = P[FS(P, thres)]
         _ell = len(simp)
         if _ell > ell:
             thres_low = thres
@@ -46,12 +46,12 @@ def simplify_polyline(P, ell):
     return simp, thres
 
 
-def _FS(P, epsilon):
+def FS(P, epsilon):
     ij = 0
-    ret = np.empty_like(P)
+    ret = np.empty(len(P), dtype=np.int_)
     count = 0
 
-    ret[count] = P[ij]
+    ret[count] = ij
     count += 1
 
     n = len(P)
@@ -68,7 +68,7 @@ def _FS(P, epsilon):
             high = min(2 ** (L + 1), n - ij - 1)
 
         if all_ok:
-            ret[count] = P[n - 1]
+            ret[count] = n - 1
             count += 1
             break
 
@@ -80,6 +80,6 @@ def _FS(P, epsilon):
             else:
                 high = mid
         ij += min(low, n - ij - 1)
-        ret[count] = P[ij]
+        ret[count] = ij
         count += 1
     return ret[:count]
