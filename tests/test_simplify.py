@@ -1,6 +1,6 @@
 import numpy as np
+from curvesimilarities import fd
 
-from curvecluster._frechet import fd
 from curvecluster.simplify import FS, simplify_polyline
 
 

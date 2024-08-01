@@ -1,8 +1,9 @@
 """Polyline simplification to acquire the initial centers of cluster."""
 
 import numpy as np
+from curvesimilarities import fd
 
-from ._frechet import decision_problem, fd
+from ._frechet import decision_problem
 
 __all__ = [
     "simplify_polyline",
