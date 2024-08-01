@@ -30,20 +30,22 @@ def simplify_polyline(P, ell):
 
     Returns
     -------
-    ndarray
+    simp : ndarray
         Simplified polyline, as an :math:`\ell` by :math:`d` array of :math:`\ell`
         vertices in a :math:`d`-dimensional space.
-
-    Raises
-    ------
-    RuntimeError
-        :math:`P` cannot be simplified to exactly :math:`\ell` vertices.
-        This is usually due to multiple vertices having same simplification costs.
+    thres : double
+        Threshold value which yields simplified polyline with highest accessible
+        complexity :math:`\ell' \le \ell`.
 
     Notes
     -----
-    This function implements Agarwal et al.'s algorithm [1]_ as described by
-    Brankovic et al. [2]_.
+    This function implements Agarwal et al.'s algorithm [1]_ as described by Brankovic
+    et al. [2]_, using Fréchet distance.
+
+    In case where binary search does not converge to desired :math:`\ell`, this function
+    simplifies :math:`P` to the highest accessible complexity :math:`\ell' < \ell`.
+    Then, :math:`\ell - \ell'` vertices are selected from :math:`P` and added the
+    simplified polyline.
 
     References
     ----------
@@ -52,6 +54,14 @@ def simplify_polyline(P, ell):
     .. [2] Brankovic, M., et al. "(k, l)-Medians Clustering of Trajectories Using
        Continuous Dynamic Time Warping." Proceedings of the 28th International
        Conference on Advances in Geographic Information Systems. 2020.
+
+    Examples
+    --------
+    >>> t = np.linspace(0, np.pi, 500)
+    >>> P = np.stack([t, np.sin(t) + np.random.normal(0, 0.01, len(t))]).T
+    >>> P_simp, _ = simplify_polyline(P, 10)
+    >>> import matplotlib.pyplot as plt  # doctest: +SKIP
+    >>> plt.plot(*P.T); plt.plot(*P_simp.T)  # doctest: +SKIP
     """
     if ell < 2:
         raise ValueError("Cannot simplify to complexity < 2.")
@@ -61,30 +71,48 @@ def simplify_polyline(P, ell):
     # Initial threshold value
     thres_low = 0
     thres_high = fd(P, P[[0, -1]])
-    simp = P[FS(P, thres_high)]
-    _ell = len(simp)
+    simp_idx = FS(P, thres_high)
+    _ell = len(simp_idx)
     thres = thres_high
 
     # Find large enough threshold
     while _ell > ell:
         thres_low = thres_high
         thres_high = thres_high * 2
-        simp = P[FS(P, thres_high)]
-        _ell = len(simp)
+        simp_idx = FS(P, thres_high)
+        _ell = len(simp_idx)
         thres = thres_high
+    idx_less = simp_idx
 
+    add_vertices = False
     while _ell != ell:
         thres = (thres_low + thres_high) / 2
         if (thres - thres_low < EPSILON) | (thres_high - thres < EPSILON):
-            raise RuntimeError("Cannot simplify to complexity %i." % ell)
-        simp = P[FS(P, thres)]
-        _ell = len(simp)
+            add_vertices = True
+            break
+        simp_idx = FS(P, thres)
+        _ell = len(simp_idx)
         if _ell > ell:
             thres_low = thres
         else:
             thres_high = thres
+            idx_less = simp_idx
 
-    return simp, thres
+    if add_vertices:
+        _ell = len(idx_less)
+        thres = thres_high
+        while _ell < ell:
+            idx_maxdiff = np.argmax(np.diff(idx_less))
+            new_idx = np.array(
+                ((idx_less[idx_maxdiff] + idx_less[idx_maxdiff + 1]) // 2,)
+            )
+            idx_less = np.concatenate(
+                (idx_less[: idx_maxdiff + 1], new_idx, idx_less[idx_maxdiff + 1 :])
+            )
+            _ell = len(idx_less)
+        simp_idx = idx_less
+
+    return P[simp_idx], thres
 
 
 def FS(P, epsilon):

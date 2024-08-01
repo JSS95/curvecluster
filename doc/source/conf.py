@@ -1,3 +1,7 @@
+import numpy as np
+
+np.random.seed(0)
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -28,6 +32,9 @@ numpydoc_show_inherited_class_members = False
 numpydoc_class_members_toctree = False
 
 plot_include_source = True
+
+with open("plot_pre_code") as f:
+    plot_pre_code = f.read()
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
