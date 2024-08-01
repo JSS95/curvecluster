@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 
 from curvecluster._frechet import fd
 from curvecluster.simplify import FS, simplify_polyline
@@ -28,12 +27,8 @@ def test_FS(P_vert):
         assert fd(P, P[simp_idx]) <= epsilon
 
     check(P_vert, simplify_polyline(P_vert, 2)[1])
+    check(P_vert, simplify_polyline(P_vert, 3)[1])
     check(P_vert, simplify_polyline(P_vert, 4)[1])
     check(P_vert, simplify_polyline(P_vert, 5)[1])
     check(P_vert, simplify_polyline(P_vert, 6)[1])
     check(P_vert, simplify_polyline(P_vert, 7)[1])
-
-
-def test_simplify_failure(P_vert):
-    with pytest.raises(RuntimeError):
-        simplify_polyline(P_vert, 3)
