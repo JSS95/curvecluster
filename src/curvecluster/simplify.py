@@ -1,4 +1,4 @@
-"""Polyline simplification to acquire the initial center."""
+"""Polyline simplification to acquire the initial centers of cluster."""
 
 import numpy as np
 
@@ -39,8 +39,8 @@ def simplify_polyline(P, ell):
 
     Notes
     -----
-    This function implements Agarwal et al.'s algorithm [#1]_ as described by Brankovic
-    et al. [#2]_, using Fréchet distance.
+    This function implements Agarwal et al.'s algorithm [1]_ as described by Brankovic
+    et al. [2]_, using Fréchet distance.
 
     In case where binary search does not converge to desired :math:`\ell`, this function
     simplifies :math:`P` to the highest accessible complexity :math:`\ell' < \ell`.
@@ -49,9 +49,9 @@ def simplify_polyline(P, ell):
 
     References
     ----------
-    .. [#1] Agarwal, P. K., Har-Peled, S., et al. (2005). Near-linear time approximation
-       algorithms for curve simplification. Algorithmica, 42, 203-219.
-    .. [#2] Brankovic, M., et al. "(k, l)-Medians Clustering of Trajectories Using
+    .. [1] Agarwal, P. K., Har-Peled, S., et al. (2005). Near-linear time
+       approximation algorithms for curve simplification. Algorithmica, 42, 203-219.
+    .. [2] Brankovic, M., et al. "(k, l)-Medians Clustering of Trajectories Using
        Continuous Dynamic Time Warping." Proceedings of the 28th International
        Conference on Advances in Geographic Information Systems. 2020.
 

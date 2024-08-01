@@ -17,3 +17,9 @@ Polyline simplification
 
 .. automodule:: curvecluster.simplify
     :members:
+
+Cluster initialization
+----------------------
+
+.. automodule:: curvecluster.initialize
+    :members:
