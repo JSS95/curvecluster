@@ -32,6 +32,7 @@ dependencies = [
   "scipy",
   "numba",
   "curvesimilarities",
+  "kmedoids",
 ]
 
 [project.urls]
