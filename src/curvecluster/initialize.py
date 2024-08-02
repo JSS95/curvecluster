@@ -46,8 +46,8 @@ def gonzalez(curves, k, ell, dist_func):
 
     Examples
     --------
-    >>> from curvesimilarities import fd
     >>> from numpy.random import normal
+    >>> from curvesimilarities import fd
     >>> t = np.linspace(0, np.pi, 20)
     >>> Ps = [np.stack([t, np.sin(t) + normal(0, 0.01, len(t))]).T for _ in range(10)]
     >>> Qs = [np.stack([t, np.cos(t) + normal(0, 0.01, len(t))]).T for _ in range(10)]
@@ -125,8 +125,8 @@ def gonzalez_pam(curves, k, ell, dist_func):
 
     Examples
     --------
-    >>> from curvesimilarities import fd
     >>> from numpy.random import normal
+    >>> from curvesimilarities import fd
     >>> t = np.linspace(0, np.pi, 20)
     >>> Ps = [np.stack([t, np.sin(t) + normal(0, 0.01, len(t))]).T for _ in range(10)]
     >>> Qs = [np.stack([t, np.cos(t) + normal(0, 0.01, len(t))]).T for _ in range(10)]

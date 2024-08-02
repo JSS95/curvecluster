@@ -12,6 +12,11 @@ CurveCluster documentation
 API reference
 =============
 
+To reproduce the examples, run the following code first:
+
+.. literalinclude:: plot_pre_code
+    :language: python
+
 Cluster initialization
 ----------------------
 
