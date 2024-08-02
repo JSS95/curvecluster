@@ -17,8 +17,14 @@ To reproduce the examples, run the following code first:
 .. literalinclude:: plot_pre_code
     :language: python
 
-Cluster initialization
+Centers initialization
 ----------------------
 
 .. automodule:: curvecluster.initialize
+    :members:
+
+Polyline averaging
+------------------
+
+.. automodule:: curvecluster.average
     :members:
