@@ -12,12 +12,6 @@ CurveCluster documentation
 API reference
 =============
 
-Polyline simplification
------------------------
-
-.. automodule:: curvecluster.simplify
-    :members:
-
 Cluster initialization
 ----------------------
 

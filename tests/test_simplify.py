@@ -1,7 +1,7 @@
 import numpy as np
 from curvesimilarities import fd
 
-from curvecluster.simplify import FS, simplify_polyline
+from curvecluster.initialize import FS, simplify_polyline
 
 
 def test_simplify(P_vert):
